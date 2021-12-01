@@ -15,3 +15,10 @@ export const findSongById = async (id) => {
 
   return result.rows[0] || false;
 };
+
+export const updateSongById = async (score, id) => {
+  await connection.query(
+    'UPDATE recommendations SET score = $1 WHERE id = $2;',
+    [score, id],
+  );
+};

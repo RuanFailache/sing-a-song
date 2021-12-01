@@ -10,8 +10,5 @@ export const upVote = async (id) => {
 
   const { score } = song;
 
-  return {
-    ...song,
-    score: score + 1,
-  };
+  return score + 1;
 };
