@@ -3,7 +3,7 @@ import * as recommendationsController from '../controllers/recommendationControl
 
 const router = new Router();
 
-router.post('/recommendations', recommendationsController.addRecommendation);
-router.post('/recommendations/:id/upvote', recommendationsController.upVote);
+router.post('/', recommendationsController.addRecommendation);
+router.post('/:id/upvote', recommendationsController.upVote);
 
 export default router;

@@ -8,6 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(recommendationRouter);
+app.use('/recommendations', recommendationRouter);
 
 export default app;
