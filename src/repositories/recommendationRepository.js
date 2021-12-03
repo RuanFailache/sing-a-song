@@ -22,3 +22,10 @@ export const updateSongById = async (score, id) => {
     [score, id],
   );
 };
+
+export const deleteSongById = async (id) => {
+  await connection.query(
+    'DELETE FROM songs WHERE id = $1;',
+    [id],
+  );
+};
