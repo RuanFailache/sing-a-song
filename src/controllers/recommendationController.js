@@ -35,3 +35,21 @@ export const upVote = async (req, res) => {
     return res.sendStatus(500);
   }
 };
+
+export const downVote = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const score = await recommendationService.downVote(id);
+
+    if (score > -5) {
+      await recommendationRepository.updateSongById(score, id);
+    } else {
+      await recommendationRepository.deleteSongById(id);
+    }
+
+    return res.sendStatus(201);
+  } catch {
+    return res.sendStatus(500);
+  }
+};
