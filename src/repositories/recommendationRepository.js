@@ -29,3 +29,11 @@ export const deleteSongById = async (id) => {
     [id],
   );
 };
+
+export const listSongs = async () => {
+  const result = await connection.query(
+    'SELECT * FROM songs;',
+  );
+
+  return result.rows;
+};

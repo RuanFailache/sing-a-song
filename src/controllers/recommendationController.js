@@ -2,7 +2,7 @@ import * as recommendationSchema from '../schemas/recommedationSchema.js';
 import * as recommendationRepository from '../repositories/recommendationRepository.js';
 import * as recommendationService from '../services/recommendationService.js';
 
-export const addRecommendation = async (req, res) => {
+export const addRecommendation = async (req, res, next) => {
   const {
     name,
     youtubeLink,
@@ -17,12 +17,12 @@ export const addRecommendation = async (req, res) => {
   try {
     await recommendationRepository.addRecommendation(name, youtubeLink);
     return res.sendStatus(201);
-  } catch {
-    return res.sendStatus(500);
+  } catch (err) {
+    return next(err);
   }
 };
 
-export const upVote = async (req, res) => {
+export const upVote = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -31,12 +31,12 @@ export const upVote = async (req, res) => {
     await recommendationRepository.updateSongById(score, id);
 
     return res.sendStatus(201);
-  } catch {
-    return res.sendStatus(500);
+  } catch (err) {
+    return next(err);
   }
 };
 
-export const downVote = async (req, res) => {
+export const downVote = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -49,7 +49,16 @@ export const downVote = async (req, res) => {
     }
 
     return res.sendStatus(201);
-  } catch {
-    return res.sendStatus(500);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const random = async (req, res, next) => {
+  try {
+    const songs = await recommendationService.random();
+    return res.send(songs);
+  } catch (err) {
+    return next(err);
   }
 };
