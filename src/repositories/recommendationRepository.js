@@ -1,5 +1,14 @@
 import connection from '../database.js';
 
+export const checkIfExistsSong = async (name, youtubeLink) => {
+  const result = await connection.query(
+    'SELECT * FROM songs WHERE name = $1 OR "youtubeLink" = $2;',
+    [name, youtubeLink],
+  );
+
+  return result.rowCount > 0;
+};
+
 export const addRecommendation = async (name, youtubeLink) => {
   await connection.query(
     'INSERT INTO songs (name, "youtubeLink") VALUES ($1, $2);',

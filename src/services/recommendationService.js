@@ -1,37 +1,56 @@
 import * as recommendationRepository from '../repositories/recommendationRepository.js';
+import * as recommendationSchemas from '../schemas/recommendationSchema.js';
 
+import AddConflictError from '../errors/AddConflictError.js';
+import InvalidSongError from '../errors/InvalidSongError.js';
 import NotSongsFoundError from '../errors/NotSongsFoundError.js';
 import InvalidAmountError from '../errors/InvalidAmountError.js';
+
+export const addRecommendation = async (name, youtubeLink) => {
+  const { error } = recommendationSchemas.newSong.validate({
+    name,
+    youtubeLink,
+  });
+
+  if (error) {
+    throw new InvalidSongError('Formato do link e/ou música invalidos!');
+  }
+
+  const existsSong = await recommendationRepository.checkIfExistsSong(name, youtubeLink);
+
+  if (existsSong) {
+    throw new AddConflictError('Link ou nome da música já cadastrados!');
+  }
+
+  await recommendationRepository.addRecommendation(name, youtubeLink);
+};
 
 export const upVote = async (id) => {
   const song = await recommendationRepository.findSongById(id);
 
   if (!song) {
-    // Throw an error here
-    return 0;
+    throw new NotSongsFoundError('Música não cadastrada, adicione ao nosso sistema para poder curti-la!');
   }
 
   const { score } = song;
 
-  return score + 1;
+  await recommendationRepository.updateSongById(score + 1, id);
 };
 
 export const downVote = async (id) => {
   const song = await recommendationRepository.findSongById(id);
 
   if (!song) {
-    // Throw an error here
-    return 0;
+    throw new NotSongsFoundError('Música não cadastrada, adicione ao nosso sistema para poder curti-la!');
   }
 
   const { score } = song;
 
   if (score > -5) {
-    return score - 1;
+    await recommendationRepository.updateSongById(score - 1, id);
+  } else {
+    await recommendationRepository.deleteSongById(id);
   }
-
-  // Fix to do something when score is less than -5
-  return 0;
 };
 
 export const random = async () => {
