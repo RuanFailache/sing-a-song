@@ -59,6 +59,9 @@ export const random = async (req, res, next) => {
     const song = await recommendationService.random();
     return res.send(song);
   } catch (err) {
+    if (err.name === 'NotSongsFound') {
+      return res.sendStatus(404);
+    }
     return next(err);
   }
 };
