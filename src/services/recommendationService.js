@@ -1,5 +1,7 @@
 import * as recommendationRepository from '../repositories/recommendationRepository.js';
-import * as recommendationError from '../errors/RecommendtionError.js';
+
+import NotSongsFoundError from '../errors/NotSongsFoundError.js';
+import InvalidAmountError from '../errors/InvalidAmountError.js';
 
 export const upVote = async (id) => {
   const song = await recommendationRepository.findSongById(id);
@@ -36,9 +38,7 @@ export const random = async () => {
   const songs = await recommendationRepository.listSongs();
 
   if (songs.length === 0) {
-    throw new recommendationError.NotSongsFound(
-      'Nenhuma música adicionada, aproveite e adicione a sua!',
-    );
+    throw new NotSongsFoundError('Nenhuma música adicionada, aproveite e adicione a sua!');
   }
 
   const popularSongs = songs.filter((song) => song.score > 10);
@@ -63,4 +63,12 @@ export const random = async () => {
   const randomIndex = Math.floor(Math.random() * songs.length);
 
   return songs[randomIndex];
+};
+
+export const topSongs = async (amount) => {
+  if (amount <= 0 || !Number(amount)) {
+    throw new InvalidAmountError('Quantidade de músicas solicitada inválida!');
+  }
+
+  return recommendationRepository.listTopSongsByAmount(amount);
 };

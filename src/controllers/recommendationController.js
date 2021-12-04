@@ -65,3 +65,17 @@ export const random = async (req, res, next) => {
     return next(err);
   }
 };
+
+export const topSongs = async (req, res, next) => {
+  const { amount } = req.params;
+
+  try {
+    const songs = await recommendationService.topSongs(amount);
+    return res.send(songs);
+  } catch (err) {
+    if (err.name === 'InvalidAmount') {
+      return res.sendStatus(400);
+    }
+    return next(err);
+  }
+};

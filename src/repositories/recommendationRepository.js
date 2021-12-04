@@ -37,3 +37,12 @@ export const listSongs = async () => {
 
   return result.rows;
 };
+
+export const listTopSongsByAmount = async (amount) => {
+  const result = await connection.query(
+    'SELECT * FROM songs ORDER BY score DESC LIMIT $1;',
+    [amount],
+  );
+
+  return result.rows;
+};
