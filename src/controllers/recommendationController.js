@@ -56,8 +56,8 @@ export const downVote = async (req, res, next) => {
 
 export const random = async (req, res, next) => {
   try {
-    const songs = await recommendationService.random();
-    return res.send(songs);
+    const song = await recommendationService.random();
+    return res.send(song);
   } catch (err) {
     return next(err);
   }

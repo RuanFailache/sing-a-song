@@ -35,25 +35,27 @@ export const random = async () => {
   const songs = await recommendationRepository.listSongs();
 
   const popularSongs = songs.filter((song) => song.score > 10);
-  const otherSongs = songs.filter((song) => song <= 10);
+  const otherSongs = songs.filter((song) => song.score <= 10);
 
   if (popularSongs.length > 0) {
     let randomSong;
 
-    const randomNumber = Math.random();
-
-    if (randomNumber > 0.7) {
-      const randomIndex = Math.floor(Math.random * popularSongs.length);
-      randomSong = popularSongs[randomIndex];
+    if (Math.random() > 0.3) {
+      randomSong = popularSongs[
+        Math.floor(Math.random() * popularSongs.length)
+      ];
     } else {
-      const randomIndex = Math.floor(Math.random * otherSongs.length);
-      randomSong = popularSongs[randomIndex];
+      randomSong = otherSongs[
+        Math.floor(Math.random() * otherSongs.length)
+      ];
     }
 
     return randomSong;
   }
 
   const randomIndex = Math.floor(Math.random() * songs.length);
+
+  console.log(songs[randomIndex]);
 
   return songs[randomIndex];
 };
