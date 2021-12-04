@@ -11,11 +11,11 @@ export const addRecommendation = async (req, res, next) => {
     return res.sendStatus(201);
   } catch (err) {
     if (err.name === 'InvalidSong') {
-      return res.sendStatus(400);
+      return res.status(400).send(err.message);
     }
 
     if (err.name === 'AddConflict') {
-      return res.sendStatus(409);
+      return res.status(409).send(err.message);
     }
     return next(err);
   }
@@ -29,7 +29,7 @@ export const upVote = async (req, res, next) => {
     return res.sendStatus(200);
   } catch (err) {
     if (err.name === 'NotSongsFound') {
-      return res.sendStatus(404);
+      return res.status(404).send(err.message);
     }
     return next(err);
   }
@@ -43,7 +43,7 @@ export const downVote = async (req, res, next) => {
     return res.sendStatus(200);
   } catch (err) {
     if (err.name === 'NotSongsFound') {
-      return res.sendStatus(404);
+      return res.status(404).send(err.message);
     }
     return next(err);
   }
@@ -55,7 +55,7 @@ export const random = async (req, res, next) => {
     return res.send(song);
   } catch (err) {
     if (err.name === 'NotSongsFound') {
-      return res.sendStatus(404);
+      return res.status(404).send(err.message);
     }
     return next(err);
   }
@@ -69,7 +69,7 @@ export const topSongs = async (req, res, next) => {
     return res.send(songs);
   } catch (err) {
     if (err.name === 'InvalidAmount') {
-      return res.sendStatus(400);
+      return res.status(400).send(err.message);
     }
     return next(err);
   }
