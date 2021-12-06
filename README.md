@@ -4,7 +4,7 @@ Project where we can add our favorite song and link for youtube to listen whenev
 <br/>
 
 ## Use the api
-#
+
 The api is hosted on heroku in ```https://app-sing-a-song.herokuapp.com/```, but if you want to use locally, use these steps:
 - Clone the project with
   ```
@@ -20,3 +20,11 @@ The api is hosted on heroku in ```https://app-sing-a-song.herokuapp.com/```, but
   ```
   npm start
   ```
+
+## Routes
+
+- ```/recommendations``` publish your song and link to youtube
+- ```/recommendations/:id/upvote``` give a score point to a music
+- ```/recommendations/:id/downvote``` decrease a score point from a music
+- ```/recommendations/random``` get a random music from our database
+- ```/recommendations/top/:amount``` get the X most popular songs
