@@ -5,7 +5,7 @@ Project where we can add our favorite song and link for youtube to listen whenev
 
 ## Use the api
 #
-The api is hosted on heroku with the link [...], but if you want to use locally, use these steps:
+The api is hosted on heroku in ```https://app-sing-a-song.herokuapp.com/```, but if you want to use locally, use these steps:
 - Clone the project with
   ```
   git clone https://github.com/RuanFailache/sing-a-song.git
